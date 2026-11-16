@@ -1,0 +1,108 @@
+.admin-login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(ellipse at top, rgba(118,87,255,0.15), transparent 55%);
+}
+.admin-login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 36px;
+}
+.admin-login-card h1 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+.admin-error {
+  color: var(--danger);
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.admin-stats .stat-card {
+  text-align: center;
+  padding: 20px 12px;
+}
+.admin-stats .stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+.admin-stats .stat-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.online-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
+  flex-shrink: 0;
+}
+.admin-table-wrap {
+  overflow-x: auto;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.admin-table th,
+.admin-table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.admin-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.admin-q-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.exam-admin-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+#admin-nav .nav-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+@media (max-width: 900px) {
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

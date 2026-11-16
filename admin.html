@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — ExamUZ</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="admin-login" class="admin-login-wrap">
+    <div class="card admin-login-card">
+      <div class="logo" style="justify-content:center;margin-bottom:20px;">
+        <span class="logo-icon">E</span> ExamUZ Admin
+      </div>
+      <h1>Admin kirish</h1>
+      <p class="text-muted mb-3">Faqat administratorlar uchun</p>
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label class="form-label">Login</label>
+          <input type="text" class="form-input" id="admin-user" placeholder="Login" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parol</label>
+          <input type="password" class="form-input" id="admin-pass" placeholder="Parol" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Kirish</button>
+      </form>
+      <p id="admin-login-error" class="admin-error" style="display:none;"></p>
+      <p class="text-center mt-3"><a href="index.html" class="text-muted">← Bosh sahifa</a></p>
+    </div>
+  </div>
+
+  <div id="admin-app" style="display:none;">
+    <header class="header">
+      <div class="container header-inner">
+        <a href="admin.html" class="logo"><span class="logo-icon">E</span> Admin</a>
+        <nav class="nav" id="admin-nav">
+          <button type="button" class="nav-link active" data-tab="dashboard">Dashboard</button>
+          <button type="button" class="nav-link" data-tab="users">Foydalanuvchilar</button>
+          <button type="button" class="nav-link" data-tab="questions">Savollar</button>
+          <button type="button" class="nav-link" data-tab="exams">Imtihonlar</button>
+          <button type="button" class="nav-link" data-tab="results">Natijalar</button>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" id="theme-toggle">☀️</button>
+          <button class="btn btn-outline btn-sm" id="admin-logout">Chiqish</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div id="tab-dashboard" class="admin-tab">
+          <h1 class="section-title">Dashboard</h1>
+          <div class="grid-4 admin-stats" id="admin-stats"></div>
+          <div class="grid-2 mt-3">
+            <div class="card">
+              <h3>Faol foydalanuvchilar (jonli)</h3>
+              <p class="text-muted mb-2">So‘nggi 15 daqiqada faol</p>
+              <div id="active-users-list"></div>
+            </div>
+            <div class="card">
+              <h3>Umuman foydalanmaganlar</h3>
+              <p class="text-muted mb-2">Ro‘yxatdan o‘tgan, test ishlamagan</p>
+              <div id="inactive-users-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-users" class="admin-tab" style="display:none;">
+          <h1 class="section-title">Foydalanuvchilar</h1>
+          <div class="card">
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="users-table">
+                <thead><tr><th>#</th><th>Ism</th><th>Email</th><th>Testlar</th><th>Ro‘yxat</th><th>Oxirgi faollik</th><th>Holat</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-questions" class="admin-tab" style="display:none;">
+          <h1 class="section-title">Savollar boshqaruvi</h1>
+          <div class="card mb-3">
+            <h3>Yangi savol qo‘shish</h3>
+            <form id="add-question-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Fan</label>
+                  <select id="q-subject" class="form-input" required></select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Qiyinlik</label>
+                  <select id="q-difficulty" class="form-input">
+                    <option value="easy">Oson</option>
+                    <option value="medium">O‘rtacha</option>
+                    <option value="hard">Qiyin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Savol matni</label>
+                <textarea id="q-text" class="form-input" rows="2" required></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">A</label><input id="q-a" class="form-input" required></div>
+                <div class="form-group"><label class="form-label">B</label><input id="q-b" class="form-input" required></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">C</label><input id="q-c" class="form-input" required></div>
+                <div class="form-group"><label class="form-label">D</label><input id="q-d" class="form-input" required></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">To‘g‘ri javob</label>
+                  <select id="q-correct" class="form-input">
+                    <option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mavzu</label>
+                  <input id="q-topic" class="form-input" placeholder="Algebra">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Izoh</label>
+                <input id="q-explanation" class="form-input">
+              </div>
+              <button type="submit" class="btn btn-primary">Savol qo‘shish</button>
+            </form>
+          </div>
+          <div class="card">
+            <h3>Bazadagi savollar (<span id="q-count">0</span>)</h3>
+            <div id="questions-admin-list"></div>
+          </div>
+        </div>
+
+        <div id="tab-exams" class="admin-tab" style="display:none;">
+          <h1 class="section-title">Imtihonlar</h1>
+          <div class="card" id="exams-admin-list"></div>
+        </div>
+
+        <div id="tab-results" class="admin-tab" style="display:none;">
+          <h1 class="section-title">Barcha natijalar</h1>
+          <div class="card">
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="results-table">
+                <thead><tr><th>Sana</th><th>Foydalanuvchi</th><th>Foiz</th><th>To‘g‘ri</th><th>Ball</th><th>Rejim</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

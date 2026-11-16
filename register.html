@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ro‘yxatdan o‘tish — ExamUZ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card card">
+      <a href="index.html" class="logo" style="justify-content:center;margin-bottom:24px;"><span class="logo-icon">E</span> ExamUZ</a>
+      <h1>Ro‘yxatdan o‘tish</h1>
+      <p class="text-muted mb-3">Yangi hisob yarating</p>
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label">Ism</label>
+          <input type="text" class="form-input" id="name" required placeholder="Ismingiz">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="email" required placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parol</label>
+          <input type="password" class="form-input" id="password" required minlength="6" placeholder="Kamida 6 belgi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parolni tasdiqlang</label>
+          <input type="password" class="form-input" id="password2" required placeholder="Parolni takrorlang">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Ro‘yxatdan o‘tish</button>
+      </form>
+      <p class="text-center mt-3 text-muted">Allaqachon hisobingiz bormi? <a href="login.html" style="color:var(--primary)">Kirish</a></p>
+    </div>
+  </div>
+  <script type="module">
+    import { register } from './js/auth.js';
+    import { getTheme } from './js/storage.js';
+    import { toast } from './js/notifications.js';
+    document.documentElement.setAttribute('data-theme', getTheme());
+
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const password2 = document.getElementById('password2').value;
+      if (password !== password2) {
+        toast.error('Parollar mos kelmadi');
+        return;
+      }
+      const res = register(name, email, password);
+      if (res.success) location.href = 'profile.html';
+    });
+  </script>
+</body>
+</html>

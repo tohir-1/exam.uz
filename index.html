@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamUZ — Bilimingni sinab ko‘r, kelajagingni yarat!</title>
+  <meta name="description" content="ExamUZ - professional online imtihonga tayyorlanish platformasi. Matematika, ingliz tili, IELTS, tarix va boshqa fanlar bo‘yicha testlar.">
+  <meta property="og:title" content="ExamUZ - Online Imtihon Platformasi">
+  <meta property="og:description" content="Bilimingni sinab ko‘r, yuzlab testlarni ishlagin va imtihonlarga ishonch bilan tayyorlan.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="admin.html" class="logo">
+        <span class="logo-icon">E</span>
+        <span>ExamUZ</span>
+      </a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link active">Bosh sahifa</a>
+        <a href="exams.html" class="nav-link">Imtihonlar</a>
+        <a href="subjects.html" class="nav-link">Fanlar</a>
+        <a href="leaderboard.html" class="nav-link">Reyting</a>
+        <a href="about.html" class="nav-link">Biz haqimizda</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Theme">☀️</button>
+        <a href="login.html" class="btn btn-outline btn-sm" id="login-btn">Kirish</a>
+        <a href="register.html" class="btn btn-primary btn-sm" id="register-btn">Ro‘yxatdan o‘tish</a>
+        <a href="profile.html" class="btn btn-outline btn-sm" id="profile-link" style="display:none;">
+          <span id="user-name">Profil</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content reveal">
+          <h1 class="hero-title">Imtihonlarga tayyorlanish<br>endi ancha oson!</h1>
+          <p class="hero-desc">Bilimingni sinab ko‘r, yuzlab testlarni ishlagin va imtihonlarga ishonch bilan tayyorlan. ExamUZ bilan kelajagingni yarat!</p>
+          <div class="hero-actions">
+            <a href="exams.html" class="btn btn-primary btn-lg">Test boshlash</a>
+            <a href="exams.html" class="btn btn-outline btn-lg">Imtihonlarni ko‘rish</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <span class="stat-num" data-count="1200">0</span>+
+              <span class="stat-label">Savollar</span>
+            </div>
+            <div class="hero-stat">
+              <span class="stat-num" data-count="12">0</span>
+              <span class="stat-label">Fanlar</span>
+            </div>
+            <div class="hero-stat">
+              <span class="stat-num" data-count="5000">0</span>+
+              <span class="stat-label">Foydalanuvchilar</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-preview reveal">
+          <div class="preview-card glass">
+            <div class="preview-header">
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-title">Matematika testi</span>
+            </div>
+            <div class="preview-body">
+              <p class="preview-q">2x + 5 = 15 tenglamasining yechimi?</p>
+              <div class="preview-opts">
+                <div class="preview-opt">A) x = 5</div>
+                <div class="preview-opt active">B) x = 10</div>
+                <div class="preview-opt">C) x = 2.5</div>
+                <div class="preview-opt">D) x = 7</div>
+              </div>
+              <div class="preview-progress">
+                <div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div>
+                <span>5 / 10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" id="categories">
+      <div class="container">
+        <h2 class="section-title text-center">Imtihon kategoriyalari</h2>
+        <p class="section-subtitle text-center">O‘zingizga mos yo‘nalishni tanlang va testlarni ishlang</p>
+        <div class="grid-4 categories-grid" id="categories-grid">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section how-section">
+      <div class="container">
+        <h2 class="section-title text-center">Qanday ishlaydi?</h2>
+        <div class="grid-3 how-grid">
+          <div class="card how-card reveal">
+            <div class="how-num">1</div>
+            <h3>Fan yoki imtihon tanlang</h3>
+            <p class="text-muted">Matematika, IELTS, haydovchilik yoki boshqa yo‘nalishlardan birini tanlang.</p>
+          </div>
+          <div class="card how-card reveal">
+            <div class="how-num">2</div>
+            <h3>Testni ishlang</h3>
+            <p class="text-muted">Oddiy, imtihon yoki mashq rejimida savollarga javob bering. Timer va progress kuzatiladi.</p>
+          </div>
+          <div class="card how-card reveal">
+            <div class="how-num">3</div>
+            <h3>Natijani tahlil qiling</h3>
+            <p class="text-muted">Ball, xatolar, izohlar va reyting. Xatolarni qayta ishlang va o‘sib boring.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAILY CHALLENGE -->
+    <section class="section">
+      <div class="container">
+        <div class="challenge-banner glass reveal">
+          <div>
+            <h2>🔥 Kunlik Challenge</h2>
+            <p class="text-muted">Har kuni 10 ta yangi savol. Streak to‘plang va XP oling!</p>
+          </div>
+          <a href="test.html?exam=exam_daily&mode=challenge&count=10" class="btn btn-accent btn-lg">Bugungi challenge</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+      <div class="container text-center">
+        <h2 class="section-title">Hozir boshlang!</h2>
+        <p class="section-subtitle">Ro‘yxatdan o‘ting yoki demo rejimda test ishlang</p>
+        <div class="hero-actions flex-center gap-2">
+          <a href="register.html" class="btn btn-primary btn-lg">Ro‘yxatdan o‘tish</a>
+          <a href="exams.html" class="btn btn-outline btn-lg">Demo test</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo"><span class="logo-icon">E</span> ExamUZ</div>
+          <p>Bilimingni sinab ko‘r, kelajagingni yarat! Professional online imtihon platformasi.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Platforma</h4>
+          <a href="exams.html">Imtihonlar</a>
+          <a href="subjects.html">Fanlar</a>
+          <a href="leaderboard.html">Reyting</a>
+          <a href="achievements.html">Yutuqlar</a>
+        </div>
+        <div class="footer-links">
+          <h4>Hisob</h4>
+          <a href="login.html">Kirish</a>
+          <a href="register.html">Ro‘yxatdan o‘tish</a>
+          <a href="profile.html">Profil</a>
+          <a href="planner.html">O‘quv reja</a>
+        </div>
+        <div class="footer-links">
+          <h4>Ma’lumot</h4>
+          <a href="about.html">Biz haqimizda</a>
+          <a href="#">Yordam</a>
+          <a href="#">Maxfiylik</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 ExamUZ. Barcha huquqlar himoyalangan.
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import './js/main.js';
+    import { subjects } from './data/subjects.js';
+    import { animateNumber } from './js/utils.js';
+
+    // Categories
+    const grid = document.getElementById('categories-grid');
+    if (grid) {
+      const icons = {
+        calculator: '🧮', languages: '🌐', 'book-open': '📖', landmark: '🏛️',
+        leaf: '🌿', 'flask-conical': '🧪', atom: '⚛️', code: '💻',
+        globe: '🌍', award: '🏅', car: '🚗', book: '📚'
+      };
+      grid.innerHTML = subjects.slice(0, 8).map(s => `
+        <a href="exams.html?subject=${s.id}" class="card category-card reveal">
+          <div class="cat-icon">${icons[s.icon] || '📘'}</div>
+          <h3>${s.name}</h3>
+          <p class="text-muted">${s.questionsCount}+ savol</p>
+          <span class="badge badge-${s.difficulty}">${s.difficulty === 'easy' ? 'Oson' : s.difficulty === 'hard' ? 'Qiyin' : 'O\'rtacha'}</span>
+        </a>
+      `).join('');
+    }
+
+    // Counters
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count, 10);
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          animateNumber(el, target, 1500);
+          observer.disconnect();
+        }
+      });
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imtihonlar — ExamUZ</title>
+  <meta name="description" content="ExamUZ imtihonlar katalogi. Fanlar, qiyinlik va tur bo‘yicha filter.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/exams.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="admin.html" class="logo"><span class="logo-icon">E</span> ExamUZ</a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link">Bosh sahifa</a>
+        <a href="exams.html" class="nav-link active">Imtihonlar</a>
+        <a href="subjects.html" class="nav-link">Fanlar</a>
+        <a href="leaderboard.html" class="nav-link">Reyting</a>
+        <a href="about.html" class="nav-link">Biz haqimizda</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle">☀️</button>
+        <a href="login.html" class="btn btn-outline btn-sm" id="login-btn">Kirish</a>
+        <a href="register.html" class="btn btn-primary btn-sm" id="register-btn">Ro‘yxatdan o‘tish</a>
+        <a href="profile.html" class="btn btn-outline btn-sm" id="profile-link" style="display:none;"><span id="user-name">Profil</span></a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1 class="section-title">Imtihonlar katalogi</h1>
+      <p class="section-subtitle">Fan, qiyinlik va tur bo‘yicha qidirib, testni boshlang</p>
+
+      <div class="filters card mb-3">
+        <div class="filter-row">
+          <input type="search" id="search-input" class="form-input" placeholder="Qidirish..." style="max-width:260px;">
+          <select id="filter-subject" class="form-input" style="max-width:180px;">
+            <option value="">Barcha fanlar</option>
+          </select>
+          <select id="filter-difficulty" class="form-input" style="max-width:150px;">
+            <option value="">Qiyinlik</option>
+            <option value="easy">Oson</option>
+            <option value="medium">O‘rtacha</option>
+            <option value="hard">Qiyin</option>
+          </select>
+          <select id="filter-type" class="form-input" style="max-width:150px;">
+            <option value="">Tur</option>
+            <option value="practice">Mashq</option>
+            <option value="exam">Imtihon</option>
+            <option value="challenge">Challenge</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-3" id="exams-grid">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">© 2026 ExamUZ</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import './js/main.js';
+    import { exams } from './data/exams.js';
+    import { subjects, getSubjectById } from './data/subjects.js';
+    import { questions } from './data/questions.js';
+    import { getDifficultyLabel, getDifficultyClass } from './js/utils.js';
+    import { storage } from './js/storage.js';
+
+    const grid = document.getElementById('exams-grid');
+    const searchInput = document.getElementById('search-input');
+    const subjectFilter = document.getElementById('filter-subject');
+    const diffFilter = document.getElementById('filter-difficulty');
+    const typeFilter = document.getElementById('filter-type');
+
+    // Available questions (static + admin custom)
+    const allQuestions = [...questions, ...(storage.get('customQuestions', []) || [])];
+    const availableBySubject = {};
+    allQuestions.forEach(q => {
+      availableBySubject[q.subjectId] = (availableBySubject[q.subjectId] || 0) + 1;
+    });
+    const totalAvailable = allQuestions.length;
+
+    subjects.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      subjectFilter.appendChild(opt);
+    });
+
+    const urlSubject = new URLSearchParams(location.search).get('subject');
+    if (urlSubject) subjectFilter.value = urlSubject;
+
+    function maxForExam(e) {
+      if (!e.subjectId) return totalAvailable;
+      return availableBySubject[e.subjectId] || e.questionsCount || 10;
+    }
+
+    function render(list) {
+      if (!list.length) {
+        grid.innerHTML = '<p class="text-muted text-center" style="grid-column:1/-1">Hech qanday imtihon topilmadi</p>';
+        return;
+      }
+      grid.innerHTML = list.map(e => {
+        const sub = e.subjectId ? getSubjectById(e.subjectId) : null;
+        const maxQ = maxForExam(e);
+        const defaultCount = Math.min(e.questionsCount || 10, maxQ);
+        return `
+          <div class="card exam-card" data-exam-id="${e.id}" data-subject="${e.subjectId || ''}" data-max="${maxQ}">
+            <div class="exam-card-top">
+              <span class="badge ${getDifficultyClass(e.difficulty)}">${getDifficultyLabel(e.difficulty)}</span>
+              ${e.isNew ? '<span class="badge badge-primary">Yangi</span>' : ''}
+              ${e.popular ? '<span class="badge badge-medium">Mashhur</span>' : ''}
+            </div>
+            <h3>${e.title}</h3>
+            <p class="text-muted">${e.description}</p>
+            <div class="exam-meta">
+              <span>${sub ? sub.name : 'Aralash'}</span>
+              <span>Mavjud: ${maxQ} savol</span>
+              <span>${e.duration} daqiqa</span>
+            </div>
+            <div class="exam-count-row">
+              <label class="count-label">Savollar soni:</label>
+              <div class="count-control">
+                <button type="button" class="count-btn count-minus" aria-label="Kamaytirish">−</button>
+                <input type="number" class="count-input" min="1" max="${maxQ}" value="${defaultCount}" data-max="${maxQ}">
+                <button type="button" class="count-btn count-plus" aria-label="Ko‘paytirish">+</button>
+              </div>
+              <span class="count-hint">max ${maxQ}</span>
+            </div>
+            <div class="exam-actions">
+              <button type="button" class="btn btn-outline btn-sm start-btn" data-mode="practice">Mashq</button>
+              <button type="button" class="btn btn-primary btn-sm start-btn" data-mode="exam">Imtihon</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Bind count controls and start buttons
+      grid.querySelectorAll('.exam-card').forEach(card => {
+        const input = card.querySelector('.count-input');
+        const max = parseInt(input.dataset.max, 10) || 10;
+
+        card.querySelector('.count-minus').addEventListener('click', () => {
+          let v = parseInt(input.value, 10) || 1;
+          input.value = Math.max(1, v - 1);
+        });
+        card.querySelector('.count-plus').addEventListener('click', () => {
+          let v = parseInt(input.value, 10) || 1;
+          input.value = Math.min(max, v + 1);
+        });
+        input.addEventListener('change', () => {
+          let v = parseInt(input.value, 10);
+          if (isNaN(v) || v < 1) v = 1;
+          if (v > max) v = max;
+          input.value = v;
+        });
+
+        card.querySelectorAll('.start-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            let count = parseInt(input.value, 10) || 1;
+            count = Math.min(Math.max(1, count), max);
+            const examId = card.dataset.examId;
+            const subject = card.dataset.subject;
+            const mode = btn.dataset.mode;
+            let url = `test.html?exam=${examId}&mode=${mode}&count=${count}`;
+            if (subject) url += `&subject=${subject}`;
+            window.location.href = url;
+          });
+        });
+      });
+    }
+
+    function filter() {
+      const q = searchInput.value.toLowerCase();
+      const sub = subjectFilter.value;
+      const diff = diffFilter.value;
+      const type = typeFilter.value;
+      let list = exams.filter(e => {
+        if (q && !e.title.toLowerCase().includes(q) && !e.description.toLowerCase().includes(q)) return false;
+        if (sub && e.subjectId !== sub) return false;
+        if (diff && e.difficulty !== diff) return false;
+        if (type && e.type !== type) return false;
+        return true;
+      });
+      render(list);
+    }
+
+    searchInput.addEventListener('input', filter);
+    subjectFilter.addEventListener('change', filter);
+    diffFilter.addEventListener('change', filter);
+    typeFilter.addEventListener('change', filter);
+    filter();
+  </script>
+</body>
+</html>

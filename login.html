@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirish — ExamUZ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card card">
+      <a href="index.html" class="logo" style="justify-content:center;margin-bottom:24px;"><span class="logo-icon">E</span> ExamUZ</a>
+      <h1>Kirish</h1>
+      <p class="text-muted mb-3">Hisobingizga kiring yoki demo rejimdan foydalaning</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="email" required placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parol</label>
+          <input type="password" class="form-input" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Kirish</button>
+      </form>
+      <div class="auth-divider">yoki</div>
+      <button class="btn btn-outline" style="width:100%;" id="demo-btn">Demo rejimda kirish</button>
+      <p class="text-center mt-3 text-muted">Hisobingiz yo‘qmi? <a href="register.html" style="color:var(--primary)">Ro‘yxatdan o‘ting</a></p>
+    </div>
+  </div>
+  <script type="module">
+    import { login, getDemoUser } from './js/auth.js';
+    import { setTheme, getTheme } from './js/storage.js';
+    document.documentElement.setAttribute('data-theme', getTheme());
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const res = login(email, password);
+      if (res.success) location.href = 'profile.html';
+    });
+
+    document.getElementById('demo-btn').addEventListener('click', () => {
+      getDemoUser();
+      location.href = 'profile.html';
+    });
+  </script>
+</body>
+</html>

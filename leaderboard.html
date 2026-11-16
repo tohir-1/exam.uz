@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reyting — ExamUZ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header class="header">
+        <div class="container header-inner">
+      <a href="admin.html" class="logo" title="Admin panel"><span class="logo-icon">E</span> ExamUZ</a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link">Bosh sahifa</a>
+        <a href="exams.html" class="nav-link">Imtihonlar</a>
+        <a href="subjects.html" class="nav-link">Fanlar</a>
+        <a href="leaderboard.html" class="nav-link active">Reyting</a>
+        <a href="about.html" class="nav-link">Biz haqimizda</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Theme">☀️</button>
+        <a href="login.html" class="btn btn-outline btn-sm" id="login-btn">Kirish</a>
+        <a href="register.html" class="btn btn-primary btn-sm" id="register-btn">Ro‘yxatdan o‘tish</a>
+        <a href="profile.html" class="btn btn-outline btn-sm" id="profile-link" style="display:none;"><span id="user-name">Profil</span></a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <h1 class="section-title text-center">Reyting jadvali</h1>
+      <p class="section-subtitle text-center">Eng yaxshi natijalar (demo ma’lumotlar + sizning natijalaringiz)</p>
+      <div class="card" id="leaderboard-list"></div>
+    </div>
+  </main>
+  <script type="module">
+    import './js/main.js';
+    import { getLeaderboard } from './js/storage.js';
+    const board = getLeaderboard();
+    const list = document.getElementById('leaderboard-list');
+    list.innerHTML = board.map((u, i) => `
+      <div class="lb-row ${i < 3 ? 'top3' : ''}">
+        <span class="lb-rank">#${i + 1}</span>
+        <span class="lb-avatar">${(u.name || 'U')[0]}</span>
+        <span class="lb-name">${u.name}</span>
+        <span class="lb-score">${u.score} ball</span>
+        <span class="text-muted">${u.testsCompleted || 0} test</span>
+      </div>
+    `).join('');
+  </script>
+  <style>
+    .lb-row { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .lb-row.top3 { background: rgba(118,87,255,0.08); margin: 0 -24px; padding: 14px 24px; border-radius: 8px; border: none; }
+    .lb-rank { font-weight: 700; width: 40px; color: var(--muted); }
+    .lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .lb-name { flex: 1; font-weight: 600; }
+    .lb-score { font-weight: 700; color: var(--accent); }
+  </style>
+</body>
+</html>

@@ -1,0 +1,94 @@
+.filters {
+  padding: 16px 20px;
+}
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.exam-card h3 {
+  margin: 12px 0 8px;
+  font-size: 1.15rem;
+}
+.exam-card-top {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.exam-meta {
+  display: flex;
+  gap: 16px;
+  margin: 14px 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.exam-count-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.count-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.count-control {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.count-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: var(--transition);
+  border: none;
+  cursor: pointer;
+}
+.count-btn:hover {
+  background: rgba(118, 87, 255, 0.2);
+  color: var(--primary);
+}
+.count-input {
+  width: 52px;
+  height: 36px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  -moz-appearance: textfield;
+}
+.count-input::-webkit-outer-spin-button,
+.count-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.count-input:focus {
+  outline: none;
+}
+.count-hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.exam-actions {
+  display: flex;
+  gap: 10px;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Natijalar — ExamUZ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/results.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header class="header">
+        <div class="container header-inner">
+      <a href="admin.html" class="logo" title="Admin panel"><span class="logo-icon">E</span> ExamUZ</a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link">Bosh sahifa</a>
+        <a href="exams.html" class="nav-link">Imtihonlar</a>
+        <a href="subjects.html" class="nav-link">Fanlar</a>
+        <a href="leaderboard.html" class="nav-link">Reyting</a>
+        <a href="about.html" class="nav-link">Biz haqimizda</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Theme">☀️</button>
+        <a href="login.html" class="btn btn-outline btn-sm" id="login-btn">Kirish</a>
+        <a href="register.html" class="btn btn-primary btn-sm" id="register-btn">Ro‘yxatdan o‘tish</a>
+        <a href="profile.html" class="btn btn-outline btn-sm" id="profile-link" style="display:none;"><span id="user-name">Profil</span></a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1 class="section-title text-center">Test natijasi</h1>
+      <div class="results-summary card" id="results-summary">
+        <!-- filled -->
+      </div>
+      <div class="results-actions text-center mt-3">
+        <a href="exams.html" class="btn btn-primary">Yana test ishlash</a>
+        <a href="mistakes.html" class="btn btn-outline">Xatolarni ko‘rish</a>
+        <a href="index.html" class="btn btn-outline">Bosh sahifa</a>
+      </div>
+      <div class="card mt-3" style="max-width:500px;margin-left:auto;margin-right:auto;">
+        <canvas id="result-chart" height="200"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import './js/main.js';
+    import { getTestResults } from './js/storage.js';
+    import { formatTime, getScoreColor } from './js/utils.js';
+
+    // Chart.js from CDN for simplicity if not installed
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.onload = init;
+    document.head.appendChild(script);
+
+    function init() {
+      let result = null;
+      const stored = sessionStorage.getItem('lastResult');
+      if (stored) {
+        result = JSON.parse(stored);
+      } else {
+        const results = getTestResults();
+        result = results[0];
+      }
+
+      if (!result) {
+        document.getElementById('results-summary').innerHTML = '<p class="text-muted text-center">Natija topilmadi. Avval test ishlang.</p>';
+        return;
+      }
+
+      const color = getScoreColor(result.percentage);
+      document.getElementById('results-summary').innerHTML = `
+        <div class="score-circle" style="border-color:${color}">
+          <span class="score-value" style="color:${color}">${result.percentage}%</span>
+          <span class="score-label">Natija</span>
+        </div>
+        <div class="results-grid">
+          <div class="result-item"><span class="ri-value">${result.correct}</span><span class="ri-label">To‘g‘ri</span></div>
+          <div class="result-item"><span class="ri-value">${result.wrong}</span><span class="ri-label">Noto‘g‘ri</span></div>
+          <div class="result-item"><span class="ri-value">${result.unanswered}</span><span class="ri-label">Javobsiz</span></div>
+          <div class="result-item"><span class="ri-value">${result.total}</span><span class="ri-label">Jami</span></div>
+          <div class="result-item"><span class="ri-value">${formatTime(result.timeSpent)}</span><span class="ri-label">Vaqt</span></div>
+          <div class="result-item"><span class="ri-value">${result.score}</span><span class="ri-label">Ball</span></div>
+        </div>
+      `;
+
+      // Chart
+      const ctx = document.getElementById('result-chart');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['To‘g‘ri', 'Noto‘g‘ri', 'Javobsiz'],
+          datasets: [{
+            data: [result.correct, result.wrong, result.unanswered],
+            backgroundColor: ['#21C98B', '#F45B72', '#A0AAC2'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          plugins: { legend: { position: 'bottom', labels: { color: '#A0AAC2' } } },
+          cutout: '65%'
+        }
+      });
+    }
+  </script>
+</body>
+</html>

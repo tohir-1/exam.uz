@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil — ExamUZ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header class="header">
+        <div class="container header-inner">
+      <a href="admin.html" class="logo" title="Admin panel"><span class="logo-icon">E</span> ExamUZ</a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link">Bosh sahifa</a>
+        <a href="exams.html" class="nav-link">Imtihonlar</a>
+        <a href="subjects.html" class="nav-link">Fanlar</a>
+        <a href="leaderboard.html" class="nav-link">Reyting</a>
+        <a href="about.html" class="nav-link">Biz haqimizda</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Theme">☀️</button>
+        <a href="login.html" class="btn btn-outline btn-sm" id="login-btn">Kirish</a>
+        <a href="register.html" class="btn btn-primary btn-sm" id="register-btn">Ro‘yxatdan o‘tish</a>
+        <a href="profile.html" class="btn btn-outline btn-sm" id="profile-link" style="display:none;"><span id="user-name">Profil</span></a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="profile-header card" id="profile-header"></div>
+      <div class="grid-3 mt-3" id="stats-grid"></div>
+      <div class="card mt-3">
+        <h3>So‘nggi natijalar</h3>
+        <div id="recent-results"></div>
+      </div>
+      <div class="mt-3 flex gap-2">
+        <a href="mistakes.html" class="btn btn-outline">Xatolarim</a>
+        <a href="achievements.html" class="btn btn-outline">Yutuqlar</a>
+        <a href="planner.html" class="btn btn-outline">O‘quv reja</a>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import './js/main.js';
+    import { getCurrentUser, getUserStats, getTestResults } from './js/storage.js';
+    import { logout, requireAuth, getDemoUser } from './js/auth.js';
+    import { formatDate, formatTime } from './js/utils.js';
+
+    if (!getCurrentUser()) getDemoUser();
+
+    const user = getCurrentUser();
+    const stats = getUserStats();
+    const results = getTestResults().filter(r => r.userId === user.id || r.userId === 'guest').slice(0, 5);
+
+    document.getElementById('profile-header').innerHTML = `
+      <div class="profile-avatar">${(user.name || 'U')[0].toUpperCase()}</div>
+      <div>
+        <h1>${user.name || 'Foydalanuvchi'}</h1>
+        <p class="text-muted">${user.email || ''}</p>
+        <p class="text-muted">Ro‘yxatdan o‘tgan: ${user.createdAt ? formatDate(user.createdAt) : '—'}</p>
+      </div>
+    `;
+
+    document.getElementById('stats-grid').innerHTML = `
+      <div class="card stat-card"><div class="stat-value">${stats.testsCompleted || 0}</div><div class="stat-label">Testlar</div></div>
+      <div class="card stat-card"><div class="stat-value">${stats.totalXP || 0}</div><div class="stat-label">XP</div></div>
+      <div class="card stat-card"><div class="stat-value">${stats.streak || 0}</div><div class="stat-label">Streak</div></div>
+    `;
+
+    const recent = document.getElementById('recent-results');
+    if (!results.length) {
+      recent.innerHTML = '<p class="text-muted mt-2">Hali natija yo‘q</p>';
+    } else {
+      recent.innerHTML = results.map(r => `
+        <div class="result-row">
+          <span>${r.percentage}%</span>
+          <span class="text-muted">${r.correct}/${r.total}</span>
+          <span class="text-muted">${formatDate(r.date)}</span>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', logout);
+  </script>
+</body>
+</html>
